@@ -76,7 +76,7 @@
 
 - 처음 일정한 동작을 반복하는 과정에서 재귀를 사용하였습니다. 같은 동작을 반복하는 과정에서 사용할 수 있는 방법으로 반복문과 재귀, 두 가지 방법이 있었습니다. 코드의 간결하게 작성할 수 있는 재귀를 사용하였습니다. 반복문과 재귀의 비교를 확인하였을 때 재귀는 함수 호출 시 스택 메모리 영역에 호출 때마다 쌓여 메모리 영역을 초과할 시 스택오버플로우가 발생할 수 있는 문제점을 알게 되었습니다.
 
-    ``` swift=
+    ``` swift
     guard let pick = readLine(), let menu = Menu(rawValue: pick) else {
         print("잘못된 입력입니다. 다시 시도해주세요.")
         selectMenu()
@@ -87,7 +87,8 @@
 🔑 **해결방법** <br>
 
 - `while`문을 사용하여 반복문을 사용하였습니다. 재귀 함수를 사용하는 것처럼 함수를 시작하고서 내부 구현 부분을 전체를 `while`문으로 묶어서 처리하였습니다.
-    ``` swift=
+
+    ``` swift
     func startRockPaperScissors() -> (Player, Result) {
         while matchResult == .draw {
             print("가위(1), 바위(2), 보(3)! <종료 : 0>:", terminator: " ")
@@ -115,7 +116,7 @@
 
 - 매개변수 2개를 받아서 값을 `if-else`문을 사용하여 각각의 값을 비교하는 방법으로 코드를 작성하였습니다. 전달인자로 들어온 값을 각각 사용하여 개별적으로 비교하여 `&&` 연산을 사용하여 조건을 완성하였습니다.
 
-    ```swift=
+    ```swift
     func comparePick(with user: String, and computer: String) {   
             if (user == "2" && computer == "1")
                 || (user == "1" && computer == "3")
@@ -132,7 +133,7 @@
 
 - 두 개의 매개변수를 `tuple`을 사용하여 하나의 매개변수로 전달하고 `tuple`끼리 비교 연산을 사용하여 문제를 해결하였습니다.
 
-    ```swift=
+    ```swift
     private func comparePick(with pair: (user: String, computer: String)) {
             let winningPair = [("2", "1"), ("1", "3"), ("3", "2")]
 
@@ -152,14 +153,14 @@
 -
 🔒 **문제점** <br>
 - 가위바위보의 결과를 비교하는 과정에서 `Menu`의 `rawValue`인 `String` 타입으로 비교하였습니다. 그러니 코드를 보았을 때 어떤 짝인지, 무엇을 비교하는지에 대해서 직관적으로 이해가 되지 않았습니다. 
-    ``` swift
+    ```swift
     private func comparePick(with pair: (user: String, computer: String)) {
             let winningPair = [("2", "1"), ("1", "3"), ("3", "2")]
     ```
 
 🔑 **해결방법** <br>
 - `rawValue`를 줄 필요 없이 `Menu`를 받아서 `Menu`를 비교하는 방법으로 변경하였습니다. 가위바위보 Pair를 바로 확인할 수 있어서 어떠한 것들을 비교하는지 더 명확해졌고, `if 문`에서 비교할 때 `rawValue`를 줄 필요도 없어서 타입에 있어서도 직관성이 올라갔습니다. 
-    ```swift=
+    ```swift
     private func compareRockPaperScissors(_ user: RockPaperScissorsMenu, _ computer: RockPaperScissorsMenu) {
             let winningPair: [(user: RockPaperScissorsMenu, computer: RockPaperScissorsMenu)] = [(.rock, .scissors),
                                                                                                  (.scissors, .paper),
@@ -197,7 +198,7 @@
 
 - `class`에 선언한 프로퍼티의 초기화를 위해 실제 사용하지 않는 값을 사용하여 초기화를 하였습니다. 초기화 한 후에 실제로 필요한 값을 받아 사용하기 위해 메서드에서 입력으로 사용해야 할 값들을 매개변수로 받아오도록 코드를 작성하였습니다.
 
-    ```swift=
+    ```swift
     init() {
         rockPaperScissorsGame = RockPaperScissorsGame(turn: turn, matchResult: matchResult, selectedGame: selectedGame)
         mukJjiPpaGame = MukJjiPpaGame(turn: turn, matchResult: matchResult, selectedGame: selectedGame)
@@ -208,7 +209,7 @@
 
 - 프로퍼티를 처음 초기화하는 것이 아닌 사용을 할 때 초기화를 진행하기 위해 옵셔널을 사용하여 프로퍼티를 선언하였고 실제 필요한 `owner`와 `result`를 할당받은 후에 초기화를 진행하도록 하였습니다.
 
-    ```swift=
+    ```swift
     private var mukJjiPpaGame: MukJjiPpaGame?
     mukJjiPpaGame = MukJjiPpaGame(turn: owner, matchResult: result)
     ```
@@ -219,7 +220,7 @@
 🔒 **문제점** <br>
 - 결과를 출력하는 객체가 `GameManager`일지 `RockPaperScissorsGame`과 `MukJjiPpaGame`일지에 대한 의논이 있었습니다. `GameManager`에서 출력하게 된다면 다를 `Game들`의 객체에서 반복하며 출력하는 부분의 처리가 지저분하게 `GameManager`에서 조건을 많이 걸어주어야 했습니다.
 
-    ```swift=
+    ```swift
     func playGame() {
             (turn, matchResult) = rockPaperScissorsGame.playRockPaperScissors()
 
@@ -244,9 +245,10 @@
     ```
 
 🔑 **해결방법** <br>
+
 - `RockPaperScissorsGame`과 `MukJjiPpaGame`가 결과를 출력하게 전환하였습니다. `GameManager`는 단순하게 가위바위보 게임을 시작하게 하고, 가위바위보 결과에 따라 묵찌빠 게임을 시작하게 하며 묵찌빠 게임이 끝나면 그대로 프로그램을 종료시켜주는 역할을 맡게 했습니다.
 
-    ```swift=
+    ```swift
     //playGame()에서는 Print를 삭제
     func playGame() {
             (turn, matchResult) = rockPaperScissorsGame.startRockPaperScissors()
@@ -289,4 +291,3 @@
 
 ## 👥 팀 회고
 - [팀 회고 링크](https://github.com/mint3382/ios-rock-paper-scissors/blob/main/%ED%8C%80%ED%9A%8C%EA%B3%A0.md)
-

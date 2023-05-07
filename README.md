@@ -34,7 +34,7 @@
 |:--:|--|
 |2023.05.01.| - 가위바위보 순서도 작성 <br> - `selectMenu`함수 구현 <br> - `generateComputerRandomNumber`함수 구현 <br> - `comparePick`함수 구현|
 |2023.05.02.| - `comparePick` 함수 리팩토링 <br> - PR comment 작성|
-|2023.05.03.| - 묵찌빠 순서도 작성 <br> - `Player, REslut, Game` 열거형 구현 <br> - `compareMukJjiPpa, playMukJjiPpa, printReslut` 함수 구현 <br> - `GameManager, RockPaperScissorsGame, MukJjiPpaGame` 클래스 구현| 
+|2023.05.03.| - 묵찌빠 순서도 작성 <br> - `Player, Result, Game` 열거형 구현 <br> - `compareMukJjiPpa, playMukJjiPpa, printReslut` 함수 구현 <br> - `GameManager, RockPaperScissorsGame, MukJjiPpaGame` 클래스 구현| 
 |2023.05.04.| - `GameBase class` 생성 <br> - 묵찌빠 class diagram 작성 <br> - class design 수정|
 |2023.05.05.| - `GameBase class`를 `Gameable protocol`로 리팩토링 <br> - README 작성|
 
@@ -44,10 +44,11 @@
 
 ### Flowchart
 <p align="center">
-<img width="800" src="https://i.imgur.com/PF0LmvA.png">
+<img width="800" src="https://hackmd.io/_uploads/SJBAUpQ43.png">
 </p>
 
-### Class Diagram
+
+### Diagram
 <p align="center">
 <img width="800" src="https://i.imgur.com/EQiH8Yi.jpg">
 </p>
@@ -57,19 +58,31 @@
 ## 💻 실행 화면 
 
 ### 가위바위보
-| 비겼을 경우 | 사용자 승리 | 컴퓨터 승리 | 잘못된 입력 | 게임 종료 |
-|:--:|:--:|:--:|:--:|:--:|
-|<img src="https://i.imgur.com/spPCIpO.gif" width="300">|<img src= "https://i.imgur.com/AVTz85C.gif" width="300">|<img src= "https://i.imgur.com/VJKxRKi.gif" width="300">|<img src= "https://i.imgur.com/sN4PZUt.gif" width="300">|<img src= "https://i.imgur.com/XOyjjfH.gif" width="300">|
+| 비겼을 경우 | 사용자 승리 |
+|:--------:|:--------:|
+|<img src="https://i.imgur.com/spPCIpO.gif" width="300">|<img src= "https://i.imgur.com/AVTz85C.gif" width="300">|
 
+| 컴퓨터 승리 | 잘못된 입력 |
+|:--------:|:--------:|
+|<img src= "https://i.imgur.com/VJKxRKi.gif" width="300">|<img src= "https://i.imgur.com/sN4PZUt.gif" width="300">|
+
+| 게임 종료 |
+|:-------:|
+|<img src= "https://i.imgur.com/XOyjjfH.gif" width="300">|
 
 ### 묵찌빠
-| 사용자 승리 | 컴퓨터 승리 | 잘못된 입력 | 게임 종료 |
-|:------:|:--:|:--:|:--:|
-|<img src= "https://i.imgur.com/MvEFjGN.gif" width="300">|<img src= "https://i.imgur.com/hVkF8qQ.gif" width="300">|<img src= "https://i.imgur.com/vPfMURh.gif" width="300">|<img src= "https://i.imgur.com/JZF5P1O.gif" width="300">|
+| 사용자 승리 | 컴퓨터 승리 |
+|:--------:|:--------:|
+|<img src= "https://i.imgur.com/MvEFjGN.gif" width="300">|<img src= "https://i.imgur.com/hVkF8qQ.gif" width="300">|
+
+| 잘못된 입력 | 게임 종료 |
+|:--------:|:-------:|
+|<img src= "https://i.imgur.com/vPfMURh.gif" width="300">|<img src= "https://i.imgur.com/JZF5P1O.gif" width="300">|
 
 </br>
 
 ## 🧨 트러블 슈팅
+
 1️⃣ **재귀와 반복문 사용** <br>
 -
 🔒 **문제점** <br>
@@ -114,7 +127,7 @@
 -
 🔒 **문제점** <br>
 
-- 매개변수 2개를 받아서 값을 `if-else`문을 사용하여 각각의 값을 비교하는 방법으로 코드를 작성하였습니다. 전달인자로 들어온 값을 각각 사용하여 개별적으로 비교하여 `&&` 연산을 사용하여 조건을 완성하였습니다.
+- 매개변수 2개를 받아서 값을 `if-else`문을 사용하여 각각의 값을 비교하는 방법으로 코드를 작성하였습니다. 전달인자로 들어온 값을 각각 사용하여 개별적으로 비교하여 `&&` 연산을 사용하여 조건을 완성하였습니다. 각각 비교하였기 때문에 첫번째 조건이 길어져 무엇을 의미하는지 바로 와닿지 않았습니다.
 
     ```swift
     func comparePick(with user: String, and computer: String) {   
@@ -149,17 +162,17 @@
 
 <br>
 
-3️⃣ **String 비교 대신 Menu 비교** <br>
+3️⃣ **`String` 비교 대신 `RockPaperScissorsMenu` 사용자 타입 비교** <br>
 -
 🔒 **문제점** <br>
-- 가위바위보의 결과를 비교하는 과정에서 `Menu`의 `rawValue`인 `String` 타입으로 비교하였습니다. 그러니 코드를 보았을 때 어떤 짝인지, 무엇을 비교하는지에 대해서 직관적으로 이해가 되지 않았습니다. 
+- 가위바위보의 결과를 비교하는 과정에서 `RockPaperScissorsMenu`의 `rawValue`인 `String` 타입으로 비교하였습니다. 그러니 코드를 보았을 때 어떤 짝인지, 무엇을 비교하는지에 대해서 직관적으로 이해가 되지 않았습니다. 
     ```swift
     private func comparePick(with pair: (user: String, computer: String)) {
             let winningPair = [("2", "1"), ("1", "3"), ("3", "2")]
     ```
 
 🔑 **해결방법** <br>
-- `rawValue`를 줄 필요 없이 `Menu`를 받아서 `Menu`를 비교하는 방법으로 변경하였습니다. 가위바위보 Pair를 바로 확인할 수 있어서 어떠한 것들을 비교하는지 더 명확해졌고, `if 문`에서 비교할 때 `rawValue`를 줄 필요도 없어서 타입에 있어서도 직관성이 올라갔습니다. 
+- `rawValue`를 줄 필요 없이 `RockPaperScissorsMenu`를 받아서 `RockPaperScissorsMenu`를 비교하는 방법으로 변경하였습니다. 가위바위보 Pair를 바로 확인할 수 있어서 어떠한 것들을 비교하는지 더 명확해졌고, `if 문`에서 비교할 때 `rawValue`를 줄 필요도 없어서 타입에 있어서도 직관성이 올라갔습니다. 
     ```swift
     private func compareRockPaperScissors(_ user: RockPaperScissorsMenu, _ computer: RockPaperScissorsMenu) {
             let winningPair: [(user: RockPaperScissorsMenu, computer: RockPaperScissorsMenu)] = [(.rock, .scissors),
@@ -180,14 +193,13 @@
 
 <br>
 
-4️⃣ **class diagram** <br>
+4️⃣ **Diagram** <br>
 -
 🔒 **문제점** <br>
-- 순서도만을 가지고 함수들을 만든 후 객체를 나누었더니 SOLID 원칙에도 위배되고 각각의 객체들이 결합도가 높아서 한 가지 기능을 수정하려면 다른 곳들까지 전부 바꿔야 하는 문제가 심했습니다.
+- 처음 순서도만을 가지고 코드를 작성한 후 객체의 관점으로 바라보기 위해서 각각의 class를 분리하는 과정이 있었습니다. 그 후 코드들을 더 깔끔하고 가독성이 좋기 위해 리펙토링 하는 과정에서 길고 고통스러운 고민의 과정이 있었습니다. 각각의 객체들이 하나의 역할과 책임만을 지고 있는 것이 아니라서 한 곳을 수정할 때마다 다른 곳들도 전부 수정해야했습니다. 중간에 잠시 저희들이 토론하고 있는 방에 찾아와주신 리뷰어 분들께 '이는 SOLID 원칙에 위배되기 때문에 그렇다'라는 말을 들었습니다. 
 
 🔑 **해결방법** <br>
-
-- 객체 간의 역할과 책임에 대해 고민하면서 class diagram을 그려보았습니다. 각자의 것이 명확하니 함수 하나 당 하나의 일을 하도록 만들 수 있었고 코드의 직관성도 나아졌습니다. 
+- 결국 팀원이 다같이 SOLID 원칙에 대해 공부하고, 객체 간의 역할과 책임에 대해 고민하면서 class diagram을 작성하는 시간을 가졌습니다. `GameManager`, `RockPaperScissorsGame`, `MukJjiPpaGame` 3개의 객체가 **서로 주고 받는 메세지**와 **그 메세지에 따라 넘겨주고 넘겨 받아야 하는 값**을 그림을 그려서 적어보니, 함수 하나 당 하나의 일을 하도록 만들 수 있었고 코드의 직관성도 나아졌습니다. 
 
     ![](https://i.imgur.com/TjLHXX0.jpg)
 
@@ -196,7 +208,7 @@
 -
 🔒 **문제점** <br>
 
-- `class`에 선언한 프로퍼티의 초기화를 위해 실제 사용하지 않는 값을 사용하여 초기화를 하였습니다. 초기화 한 후에 실제로 필요한 값을 받아 사용하기 위해 메서드에서 입력으로 사용해야 할 값들을 매개변수로 받아오도록 코드를 작성하였습니다.
+- `class`에 선언한 프로퍼티의 초기화를 위해 **실제 사용하지 않는 값을 사용하여 초기화**를 하였습니다. 초기화 한 후에 실제로 필요한 값을 받아 사용하기 위해 메서드에서 입력으로 사용해야 할 값들을 매개변수로 받아오도록 코드를 작성하였습니다.
 
     ```swift
     init() {
@@ -215,10 +227,10 @@
     ```
 
 
-6️⃣ **printResult의 위치** <br>
+6️⃣ **`printResult` 함수의 위치** <br>
 -
 🔒 **문제점** <br>
-- 결과를 출력하는 객체가 `GameManager`일지 `RockPaperScissorsGame`과 `MukJjiPpaGame`일지에 대한 의논이 있었습니다. `GameManager`에서 출력하게 된다면 다를 `Game들`의 객체에서 반복하며 출력하는 부분의 처리가 지저분하게 `GameManager`에서 조건을 많이 걸어주어야 했습니다.
+- 결과를 출력하는 객체가 `GameManager`일지 `RockPaperScissorsGame`과 `MukJjiPpaGame`일지에 대한 의논이 있었습니다. `GameManager`에서 출력하게 된다면 다른 `Game`들의 객체에서 반복하며 출력하는 부분의 처리가 `GameManager`에서 여러 조건을 사용하여 확인해 주어야 했습니다.
 
     ```swift
     func playGame() {
